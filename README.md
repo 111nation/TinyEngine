@@ -61,6 +61,22 @@ To execute the binary via CLI, execute:
 ```
     
  </details>
+
+ <details>
+  <summary>MacOS</summary>
+  
+Unzip the downloaded zip file. You can do this by running the following in the same directory as the downloaded zip file.
+```bash
+unzip <Folder Name> .
+cd <Folder Name>
+```
+Execute `main` within the unzipped folder or to execute the binary via CLI, execute:
+
+```powershell
+./main
+```
+    
+ </details>
  
 
 ## Build From Source
