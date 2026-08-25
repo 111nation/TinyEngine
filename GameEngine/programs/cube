@@ -1,0 +1,221 @@
+# ==========================================
+# INTERACTIVE SPINNABLE 3D CUBE
+# Authored by Gemini AI
+# ==========================================
+
+# Center screen offsets
+M50 = SCREEN_WIDTH / 2
+M51 = SCREEN_HEIGHT / 2
+
+# Focal Length & Camera Z-Distance
+M52 = 120
+M53 = 80
+
+# Angles (0 to 360)
+M40 = 0 # Yaw Angle (Y-axis rotation)
+M41 = 0 # Pitch Angle (X-axis rotation)
+
+M8 = TIME
+M10 = 33 # ~30 FPS
+
+# ------------------------------------------
+# MAIN EXECUTION LOOP
+# ------------------------------------------
+WHILE 1 DO
+    CALL INPUT
+
+    # Frame Pacing
+    IF TIME - M8 >= M10 THEN
+        M8 = TIME
+
+        # 1. Update Rotation Angles via Joystick
+        IF JOYSTICK_X < 0 THEN
+            M40 = M40 - 6
+        ELSE IF JOYSTICK_X > 0 THEN
+            M40 = M40 + 6
+        END
+
+        IF JOYSTICK_Y < 0 THEN
+            M41 = M41 - 6
+        ELSE IF JOYSTICK_Y > 0 THEN
+            M41 = M41 + 6
+        END
+
+        # Wrap Angles
+        IF M40 >= 360 THEN
+            M40 = M40 - 360
+        END
+        IF M40 < 0 THEN
+            M40 = M40 + 360
+        END
+        IF M41 >= 360 THEN
+            M41 = M41 - 360
+        END
+        IF M41 < 0 THEN
+            M41 = M41 + 360
+        END
+
+        # ----------------------------------
+        # 2. APPROXIMATE SIN/COS LOOKUPS
+        # M54 = Cos(Yaw), M55 = Sin(Yaw)
+        # M56 = Cos(Pitch), M57 = Sin(Pitch)
+        # (Scaled by 100 for integer arithmetic)
+        # ----------------------------------
+        
+        # Yaw Sin/Cos
+        IF M40 < 90 THEN
+            M54 = 100 - ((M40 * M40) / 160)
+            M55 = (M40 * 11) / 10
+        ELSE IF M40 < 180 THEN
+            M58 = M40 - 90
+            M54 = 0 - ((M58 * 11) / 10)
+            M55 = 100 - ((M58 * M58) / 160)
+        ELSE IF M40 < 270 THEN
+            M58 = M40 - 180
+            M54 = (M58 * M58) / 160 - 100
+            M55 = 0 - ((M58 * 11) / 10)
+        ELSE
+            M58 = M40 - 270
+            M54 = (M58 * 11) / 10
+            M55 = (M58 * M58) / 160 - 100
+        END
+
+        # Pitch Sin/Cos
+        IF M41 < 90 THEN
+            M56 = 100 - ((M41 * M41) / 160)
+            M57 = (M41 * 11) / 10
+        ELSE IF M41 < 180 THEN
+            M58 = M41 - 90
+            M56 = 0 - ((M58 * 11) / 10)
+            M57 = 100 - ((M58 * M58) / 160)
+        ELSE IF M41 < 270 THEN
+            M58 = M41 - 180
+            M56 = (M58 * M58) / 160 - 100
+            M57 = 0 - ((M58 * 11) / 10)
+        ELSE
+            M58 = M41 - 270
+            M56 = (M58 * 11) / 10
+            M57 = (M58 * M58) / 160 - 100
+        END
+
+        # ----------------------------------
+        # 3. TRANSFORM & PROJECT 8 VERTICES
+        # ----------------------------------
+
+        # --- VERTEX 0 (-25, -25, -25) ---
+        M0 = -25
+        M1 = -25
+        M2 = -25
+        # Yaw Rotate
+        M60 = (M0 * M54 - M2 * M55) / 100
+        M62 = (M0 * M55 + M2 * M54) / 100
+        # Pitch Rotate
+        M61 = (M1 * M56 - M62 * M57) / 100
+        M62 = (M1 * M57 + M62 * M56) / 100 + M53
+        # Project
+        M24 = M50 + ((M60 * M52) / M62)
+        M25 = M51 + ((M61 * M52) / M62)
+
+        # --- VERTEX 1 (25, -25, -25) ---
+        M0 = 25
+        M1 = -25
+        M2 = -25
+        M60 = (M0 * M54 - M2 * M55) / 100
+        M62 = (M0 * M55 + M2 * M54) / 100
+        M61 = (M1 * M56 - M62 * M57) / 100
+        M62 = (M1 * M57 + M62 * M56) / 100 + M53
+        M26 = M50 + ((M60 * M52) / M62)
+        M27 = M51 + ((M61 * M52) / M62)
+
+        # --- VERTEX 2 (25, 25, -25) ---
+        M0 = 25
+        M1 = 25
+        M2 = -25
+        M60 = (M0 * M54 - M2 * M55) / 100
+        M62 = (M0 * M55 + M2 * M54) / 100
+        M61 = (M1 * M56 - M62 * M57) / 100
+        M62 = (M1 * M57 + M62 * M56) / 100 + M53
+        M28 = M50 + ((M60 * M52) / M62)
+        M29 = M51 + ((M61 * M52) / M62)
+
+        # --- VERTEX 3 (-25, 25, -25) ---
+        M0 = -25
+        M1 = 25
+        M2 = -25
+        M60 = (M0 * M54 - M2 * M55) / 100
+        M62 = (M0 * M55 + M2 * M54) / 100
+        M61 = (M1 * M56 - M62 * M57) / 100
+        M62 = (M1 * M57 + M62 * M56) / 100 + M53
+        M30 = M50 + ((M60 * M52) / M62)
+        M31 = M51 + ((M61 * M52) / M62)
+
+        # --- VERTEX 4 (-25, -25, 25) ---
+        M0 = -25
+        M1 = -25
+        M2 = 25
+        M60 = (M0 * M54 - M2 * M55) / 100
+        M62 = (M0 * M55 + M2 * M54) / 100
+        M61 = (M1 * M56 - M62 * M57) / 100
+        M62 = (M1 * M57 + M62 * M56) / 100 + M53
+        M32 = M50 + ((M60 * M52) / M62)
+        M33 = M51 + ((M61 * M52) / M62)
+
+        # --- VERTEX 5 (25, -25, 25) ---
+        M0 = 25
+        M1 = -25
+        M2 = 25
+        M60 = (M0 * M54 - M2 * M55) / 100
+        M62 = (M0 * M55 + M2 * M54) / 100
+        M61 = (M1 * M56 - M62 * M57) / 100
+        M62 = (M1 * M57 + M62 * M56) / 100 + M53
+        M34 = M50 + ((M60 * M52) / M62)
+        M35 = M51 + ((M61 * M52) / M62)
+
+        # --- VERTEX 6 (25, 25, 25) ---
+        M0 = 25
+        M1 = 25
+        M2 = 25
+        M60 = (M0 * M54 - M2 * M55) / 100
+        M62 = (M0 * M55 + M2 * M54) / 100
+        M61 = (M1 * M56 - M62 * M57) / 100
+        M62 = (M1 * M57 + M62 * M56) / 100 + M53
+        M36 = M50 + ((M60 * M52) / M62)
+        M37 = M51 + ((M61 * M52) / M62)
+
+        # --- VERTEX 7 (-25, 25, 25) ---
+        M0 = -25
+        M1 = 25
+        M2 = 25
+        M60 = (M0 * M54 - M2 * M55) / 100
+        M62 = (M0 * M55 + M2 * M54) / 100
+        M61 = (M1 * M56 - M62 * M57) / 100
+        M62 = (M1 * M57 + M62 * M56) / 100 + M53
+        M38 = M50 + ((M60 * M52) / M62)
+        M39 = M51 + ((M61 * M52) / M62)
+
+        # ----------------------------------
+        # 4. RENDER WIREFRAME
+        # ----------------------------------
+        CALL CLEAR
+
+        # Front Face (Cyan)
+        CALL LINE M24, M25, M26, M27, 0, 255, 255
+        CALL LINE M26, M27, M28, M29, 0, 255, 255
+        CALL LINE M28, M29, M30, M31, 0, 255, 255
+        CALL LINE M30, M31, M24, M25, 0, 255, 255
+
+        # Back Face (Magenta)
+        CALL LINE M32, M33, M34, M35, 255, 0, 255
+        CALL LINE M34, M35, M36, M37, 255, 0, 255
+        CALL LINE M36, M37, M38, M39, 255, 0, 255
+        CALL LINE M38, M39, M32, M33, 255, 0, 255
+
+        # Connecting Edges (Yellow)
+        CALL LINE M24, M25, M32, M33, 255, 255, 0
+        CALL LINE M26, M27, M34, M35, 255, 255, 0
+        CALL LINE M28, M29, M36, M37, 255, 255, 0
+        CALL LINE M30, M31, M38, M39, 255, 255, 0
+
+        CALL DISPLAY
+    END
+END
