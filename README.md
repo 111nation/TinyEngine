@@ -3,11 +3,28 @@
 <br />
 
 <div align="center">
-  The Arduino Handheld Console project that turns your Arduino into a handheld game station! Inspired by the Game Boy and PSP.
-
-  The handheld Console features a **custom-written programming language** and **game engine**, allowing you to write your own games!
-
+	Game Engine to turn your Arduino into a mini retro game console! Custom games are supported with a <b>custom scripting language!</b> Inspired by the Game Boy and PSP.
 </div>
+
+</br>
+<br/>
+
+<table>
+  <tr>
+    <td>
+		<video align="center" src="https://github.com/user-attachments/assets/33827b4c-8e4e-426e-9b60-be744eea247d"></video>
+    </td>
+    <td>
+      <video align="center" src="https://github.com/user-attachments/assets/ec7205b4-f6b6-4be5-a814-8c1b3a0f6f02"></video>
+    </td>
+    <td>
+      <video align="center" src="https://github.com/user-attachments/assets/da858756-d852-48f3-9bdf-db8580aac82f"></video>
+    </td>
+  </tr>
+</table>
+
+<br/>
+<br/>
 
 _Make sure to leave a GitHub star on this repo to show your support <3 :)_
 
@@ -20,12 +37,18 @@ _Make sure to leave a GitHub star on this repo to show your support <3 :)_
 
 <hr />
 
+
 # Features
 
 * 2D Game Engine
 * Custom Game Scripting Language
-* Joystick + Button support
+* Joystick + Button support (Broken)
 * Console Emulation on PC
+
+### Game Engine
+
+The game engine and language reference are available at [Docs/README.md](Docs/README.md).
+
 
 # Installation
 
@@ -159,6 +182,7 @@ Keep all custom written games in `$ROOT/programs/`, 'load' a game by renaming it
 ### Scripting Games
 
 This is the most fun part! This section is viewable at [Docs/README.md](Docs/README.md)
+
 
 ### Project Structure
 
