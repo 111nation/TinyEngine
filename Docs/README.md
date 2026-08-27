@@ -1,9 +1,9 @@
-# Documentation
+# TinyEngine Documentation
 
 <br />
 
 <div align="center">
-    This documentation helps you with creating your own games using the <b>custom programming language</b> :)
+    This documentation helps you with getting started with <b>TinyEngine</b> and the <b>TinyScript</b> scripting language! :)
 </div>
 
 
@@ -11,24 +11,24 @@
 
 ### Loading Games
 
-As previously discussed in the root [README.md](../README.md), the game engine is hard coded to run a single implementation of a game under `$ROOT/programs/main`. This main file is due to act as a bootloader for the console in the future. Right now this is where you will write your scripts to create your fun little games!
+As previously discussed in the root [README.md](../README.md), the TinyEngine loads a single game, written in <b>TinyScript</b> under `$ROOT/programs/main`. This main file is due to act like bootloader for in the future. For now, TinyEngine loads your game under `$ROOT/programs/main`. Let's go on to the fun part!
 
-### About The Programming Language
+### About TinyEngine
 
-The custom high-level programming language the handheld console uses is an implementation of a Tree-walk interpreted language. It fetches and executes instructions directily from the implementation file. This means, the game engine reads each line and executes it before going to the next line. This is a contrast from programming languages such as C++ which compiles the whole source code into binary format before running the program from the binary output instead of line-by-line as this programming language.
+TinyScript is a scripting language that is an implementation of a Tree-walk interpreted language. TinyEngine fetches and executes instructions directly from your TinyScript file. This means that TinyEngine reads each line and executes it before going to the next line. This is a contrast from programming languages such as C++ which compiles the whole source code into binary format, thereafter executing the program from the binary output.
 
 The interpreter was written with the help of [this excellent book](https://craftinginterpreters.com/)!
 
-The language syntax was inspired by **BASIC**: a former, important programming language in history.
+The language syntax is inspired by **BASIC**: a former, important programming language in history.
 
 ## Basic Concepts
 
 > [!NOTE]
-> The language syntax is case sensitive and requires uppercase
+> The language syntax is case-sensitive and requires uppercase
 
 ### Comments
 
-Comments are supported in the language. Any text starting at a leading `#` to the end of a line will be ignored.
+Any text starting at a leading `#` to the end of a line will be ignored by TinyEngine.
 
 ```
 # Single line comment
@@ -40,30 +40,32 @@ Comments are supported in the language. Any text starting at a leading `#` to th
 
 ### Data Types
 
-The language uses only ONE data type: a 16-bit integer. Every data or variable that you will be interacting with is a 16-bit integer, capable of storing `-32,768` to `32,767`. If you attempt to store numbers outside that range, you will encounter an integer underflow or overflow.
+TinyScript only uses ONE data type: a 16-bit signed integer. Every data or variable that you will be interacting with is a 16-bit signed integer, capable of storing `-32,768` up to `32,767`. If you attempt to store numbers outside that range, you will encounter an integer underflow or overflow.
 
 ### Memory & Variables
 
-The game engine acts as a virtual machine giving you a virtual memory heap structure that you can access directly. The heap structure contains single memory 'blocks' between `[0,63]`. 
+TinyEngine acts as a virtual machine, giving you a virtual memory heap structure that you can access directly. The heap structure contains single memory 'blocks' between `0` (inclusive) and `63` (inclusive). 
 
 > [!NOTE]
-> Make sure to initialize memory blocks before using them. 
+> Make sure to initialise memory blocks before using them. 
 
-To write a result of an equation into memory block 40:
+To write the result of an equation into memory block 40:
 
 ```
 M40 = 18 * (-6 / 5)
 ```
 
-To read from memory block 11 and 12, and store their sum into block 1: 
+To read from memory blocks 11 and 12, and store their sum into block 1: 
 
 ```
 M1 = M11 + M12
 ```
 
+Memory blocks are not scoped and can be accessed anywhere in the program.
+
 ### Conditions
 
-The programming language supports if statements and while loops. These control flows depend on comparisons and conditions. Values that are non-zero are regarded as "true" and zero values are regarded as "false".
+TinyScript supports if statements and while loops. These control flows depend on comparisons and conditions. Values that are non-zero are regarded as "true", and zero values are regarded as "false".
 
 > [!NOTE]
 > Any comparison operations returns a '1' or '0' integer
@@ -98,9 +100,9 @@ M10 = (NOT 0) AND (5 + 6 == 11)
 
 #### IF statements
 
-If statements work in this language, just as any other language. An if statement requires an opening `IF`, a condition, proceeding `THEN` and closing `END` to signal to the interpreter the end of the current if statement.
+If statements work in TinyScript, just as any other language. An if statement requires an opening `IF`, a condition, a proceeding `THEN` and a closing `END` to signal to the interpreter the end of the current if statement.
 
-To check if Memory block 5 is greater or equal to 4:
+To check if Memory block 5 is greater than or equal to 4:
 
 ```
 IF M5 >= M4 THEN
@@ -134,7 +136,7 @@ END
 
 #### WHILE statements
 
-While statements require an opening `WHILE`, a condition, proceeding `DO` and closing `END` to signal to the interpreter the end of the current if statement.
+While statements require an opening `WHILE`, a condition, a proceeding `DO`, and a closing `END` to signal to TinyEngine the end of the current while statement.
 
 
 To loop 10 times:
@@ -145,9 +147,6 @@ WHILE M0 < 10 DO
 	M0 = M0 + 1
 END
 ```
-
-`ELSE` statements for loops are not supported in this programming language. Actually very few languages support it! 
-
 > [!WARNING]
 > Be wary of infinite loops :)
 
@@ -174,11 +173,11 @@ END
 
 #### Overview
 
-Functions work as usual in this language as every other language. When you define a function, the interpreter marks down the location of that function in the file in a function register. The function register behaves the similarly as the memory heap; a maximum of 16 functions from `0` to `15` are able to be defined.
+Functions work as usual in TinyScript as in every other language. When you define a function, TinyEngine marks down the location of that function in the file in a function register. The function register behaves similarly to the memory heap; a maximum of 16 functions from `0` to `15` (inclusive) are able to be defined.
 
-#### Defenitions
+#### Definitions
 
-Custom functions are primitive in this language. No return types or parameters are supported directly, however due to the nature of the direct access heap, one can reserve memory blocks for the parameters of a function or return data.
+Custom functions are primitive in TinyScript. No return types or parameters are supported directly; however due to the nature of the direct access heap, one can reserve memory blocks for the parameters of a function or return data.
 
 
 To define a simple function to add two numbers, this function will be stored in function registry location 6:
@@ -190,7 +189,7 @@ END
 ```
 
 > [!NOTE]
-> The latest defenition of a function in registry location X will always overwrite previous defenitions in registry location X if they exist
+> The latest definition of a function in registry location X will always overwrite previous definitions in registry location X if it exists
 
 #### Calling
 
@@ -202,7 +201,7 @@ CALL FUNC6
 
 ### Coordinate Sytem
 
-The game engine's coordinate system starts from (0,0) which is the top left corner. For increasing x values, it refers to points going to the right of the screen from the left. For increasing y values, it refers to points going down the screen from the top.
+TinyEngine's coordinate system starts from (0,0) which is the top left corner. For increasing x values, it refers to points going to the right of the screen from the left. For increasing y values, it refers to points going down the screen from the top.
 
 ## Built-ins
 
@@ -235,7 +234,7 @@ Various built in variables and functions are provided for you to interact with t
     </tr>
     <tr>
       <td><code>TIME</code></td>
-      <td>A millisecond clock tracking elapsed time using an unsigned 16-bit integer that overflows/resets back to <code>0</code> after reaching <code>65,535</code>.</td>
+      <td>A millisecond clock tracking elapsed time using an unsigned 16-bit integer that overflows/resets back to <code>0</code> after reaching <code>32,767</code>.</td>
     </tr>
     <tr>
       <td><code>SCREEN_WIDTH</code></td>
@@ -250,9 +249,9 @@ Various built in variables and functions are provided for you to interact with t
 
 ### Functions
 
-Built in functions take a slightly different approach, for one, they do not have to be defined by the programmer (hence built in!) and these functions **do support function arguments**. However, return types are not supported, and not needed!
+Built-in functions take a slightly different approach; for one, they do not have to be defined by the programmer (hence built-in!) and these functions **do support function arguments**. However, return types are not supported and not needed!
 
-Function arguments are comma delimited and support expressions.
+Function arguments are comma-delimited and support expressions.
 
 The following lists all the functions available for use:
 
@@ -274,7 +273,7 @@ The following lists all the functions available for use:
     </tr>
     <tr>
       <td><a href="Functions/FILL.md"><strong>FILL</strong></a></td>
-      <td>Paints the entire screen with a specified color.</td>
+      <td>Paints the entire screen with a specified colour.</td>
     </tr>
     <tr>
       <td><a href="Functions/INPUT.md"><strong>INPUT</strong></a></td>
@@ -295,7 +294,7 @@ The following lists all the functions available for use:
 
 #### Opening a window
 
-The game engine leaves the responsibility of updating itself to the programmer (you). To ensure that your game runs continuously and a window displays for your game, place updating code for **both** input and display updators:
+TinyEngine leaves the responsibility of updating itself to the programmer (you). To ensure that your game runs continuously and a window displays for your game, place updating code for **both** input and display updates:
 
 ```
 WHILE 1 DO
@@ -309,11 +308,11 @@ END
 
 > [!WARNING]
 > Not continuously calling `DISPLAY` will make your game window freeze 
-> `DISPLAY` is vital to tell the OS to keep your window alive
+> `DISPLAY` is vital to tell your OS to keep your window alive
 
 ### Quitting your game
 
-An extra tip to allow users to quit your game is to run your game loop until a user does a specific action. For example if a user presses button A to quit.
+An extra tip to allow users to quit your game is to run your game loop until a user does a specific action. For example, if a user presses button A to quit.
 
 ```
 WHILE NOT BUTTON_A DO
