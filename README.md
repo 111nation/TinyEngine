@@ -174,7 +174,7 @@ Make sure you have the various prerequisites.
 Clone the repository onto your local system using the following.
 
 ```bash
-git clone --recursive https://github.com/111nation/Arduino-Handheld-Console
+git clone --recursive https://github.com/111nation/TinyEngine
 ```
 
 Enter the cloned repository and enter the `GameEngine` directory to build and execute the Emulator.
