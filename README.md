@@ -14,10 +14,6 @@
 * **TinyScript** scripting language
 * Console Emulation on PC
 
->[!NOTE]
-> The project is WIP!
-> You can currently emulate and run the Game Engine on your laptop/computer.
-> Future goals are to implement this on microcontrollers.
 
 ### TinyEngine
 <div><video width="100px" align="center" src="https://github.com/user-attachments/assets/ec7205b4-f6b6-4be5-a814-8c1b3a0f6f02"></video></div>
@@ -64,6 +60,12 @@ END
 _Make sure to leave a GitHub star on this repo to show your support <3 :)_
 
 <br />
+
+
+>[!NOTE]
+> The project is WIP!
+> You can currently emulate and run the Game Engine on your laptop/computer.
+> Future goals are to implement this on microcontrollers.
 
 # Getting Started
 
