@@ -226,11 +226,11 @@ This is the most fun part! This section is viewable at [Docs/README.md](Docs/REA
     </tr>
     <tr>
       <td><strong>GameEngine</strong></td>
-      <td>Stores the main source code and data for the active game engine.</td>
+      <td>Stores the main source code and data for the TinyEngine game engine.</td>
     </tr>
     <tr>
       <td><strong>Docs</strong></td>
-      <td>Contains the system and API documentation for the current game engine.</td>
+      <td>Contains the system and API documentation for TinyEngine.</td>
     </tr>
   </tbody>
 </table>
