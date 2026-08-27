@@ -8,6 +8,12 @@
 
 ## Demo
 
+### Features
+
+* **TinyEngine** 2D Game Engine
+* **TinyScript** scripting language
+* Console Emulation on PC
+
 >[!NOTE]
 > The project is WIP!
 > You can currently emulate and run the Game Engine on your laptop/computer.
@@ -58,12 +64,6 @@ END
 _Make sure to leave a GitHub star on this repo to show your support <3 :)_
 
 <br />
-
-# Features
-
-* **TinyEngine** 2D Game Engine
-* **TinyScript** scripting language
-* Console Emulation on PC
 
 # Getting Started
 
